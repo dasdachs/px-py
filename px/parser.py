@@ -1,7 +1,6 @@
 """
 This is an update from https://github.com/zejn/pcaxis
 """
-import codecs
 import pyparsing
 from pyparsing import Keyword, Word, alphas, nums, alphanums, Regex, Literal, OneOrMore, Suppress, Group, Dict, Optional, White
 

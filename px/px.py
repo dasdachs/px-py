@@ -1,3 +1,4 @@
+import json
 from pathlib import Path
 from typing import List, Dict, Optional
 
@@ -44,6 +45,11 @@ class PxPy:
    
     
     @staticmethod
+    def read_json() -> None:
+        pass
+    
+    
+    @staticmethod
     def read_dataFrame() -> None:
         pass
     
@@ -64,6 +70,9 @@ class PxPy:
     def to_csv(self) -> None:
         pass
 
+
+    def to_json(self) -> None:
+        pass
 
     def to_dataFrame(self) -> None:
         pass
