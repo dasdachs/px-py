@@ -1,18 +1,6 @@
 """
 This is an update from https://github.com/zejn/pcaxis
 """
-"""
-usage:
-
-from pcaxis import axis_parser
-
-axis_parser.parseString('...')
-axis_parser.parseFile(open(fn))
-
-
-or run with python axis.py <dataset>
-"""
-
 import codecs
 import pyparsing
 from pyparsing import Keyword, Word, alphas, nums, alphanums, Regex, Literal, OneOrMore, Suppress, Group, Dict, Optional, White
@@ -206,18 +194,19 @@ def parseData(d, structure):
 			dline = []
 	return data_array
 
-def parsePX(data, encoding=None):
+# TODO: handle codecs
+def parsePX(data):
     parseresults = pcaxis_parser.parseString(data)
 
-    if encoding is None:
-        # detect encoding
-        for item in parseresults:
-            if item[0] == 'CHARSET':
-                encoding = item[1]
-                try:
-                    c = codecs.lookup(encoding)
-                except LookupError:
-                    raise ValueError('Invalid encoding, please set charset manually by passing encoding parameter to parsePX', encoding)
+    # if encoding is None:
+    #     # detect encoding
+    #     for item in parseresults:
+    #         if item[0] == 'CHARSET':
+    #             encoding = item[1]
+    #             try:
+    #                 c = codecs.lookup(encoding)
+    #             except LookupError:
+    #                 raise ValueError('Invalid encoding, please set charset manually by passing encoding parameter to parsePX', encoding)
 
     parsed_data = {}
     for item in parseresults:
