@@ -1,5 +1,23 @@
 {
     "python.linting.pylintEnabled": false,
     "python.linting.mypyEnabled": true,
-    "python.linting.enabled": true
+    "python.linting.enabled": true,
+    "python.formatting.provider": "black",
+    "cSpell.words": [
+        "AHQMW",
+        "BPAREN",
+        "EPAREN",
+        "MLQSTRING",
+        "QSTRING",
+        "alphanums",
+        "dline",
+        "nexts",
+        "notex",
+        "nums",
+        "pdata",
+        "pyparsing",
+        "struct",
+        "tlist",
+        "valuenotex"
+    ]
 }
