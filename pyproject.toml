@@ -16,7 +16,26 @@ black = {version = "^20.8b1", allow-prereleases = true}
 pytest = "^6.1.2"
 mypy = "^0.790"
 pylint = "^2.6.0"
+pre-commit = "^2.8.2"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.black]
+line-length = 88
+target-version = ['py37']
+include = '\.pyi?$'
+exclude = '''
+(
+  /(
+      \.eggs
+    | \.git
+    | \.mypy_cache
+    | \.tox
+    | \.venv
+    | build
+    | dist
+  )/
+)
+'''
