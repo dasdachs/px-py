@@ -1,5 +1,27 @@
+# type: ignore
 from enum import Enum, IntEnum
 from typing import List, Optional, TypedDict, Union
+
+
+class YesNoEnum(Enum):
+    YES = "YES"
+    NO = "NO"
+
+
+class CFPrices(Enum):
+    C = "C"
+    F = "F"
+
+
+class StockFaEnum(Enum):
+    A = "A"
+    F = "F"
+    S = "S"
+
+
+class ConfidentialEnum(IntEnum):
+    1
+    2
 
 
 class ParsedPxFile(TypedDict):
@@ -92,24 +114,3 @@ class ParsedPxFile(TypedDict):
     valuenotex: Optional[List[str]]
     values: List[str]
     variable_type: Optional[List[str]]
-
-
-class YesNoEnum(Enum):
-    YES = "YES"
-    NO = "NO"
-
-
-class CFPrices(Enum):
-    C = "C"
-    F = "F"
-
-
-class StockFaEnum(Enum):
-    A = "A"
-    F = "F"
-    S = "S"
-
-
-class ConfidentialEnum(IntEnum):
-    1
-    2

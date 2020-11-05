@@ -1,3 +1,4 @@
+# type: ignore
 """
 The lexer adheres to the 2013 PX version.
 
