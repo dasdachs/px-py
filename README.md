@@ -1,6 +1,6 @@
 # PX-PY
 
-Python to parse, save and convert `.px` files.
+Python to parse, save and convert `px` files.
 
 
 ## Development
@@ -17,4 +17,3 @@ For `pandas` and `excel` integration use
 ```bash
 poetry install -E pandas -E openpyexcel
 ```
-
