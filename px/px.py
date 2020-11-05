@@ -9,9 +9,10 @@ from .exceptions import FileNotFoundError
 
 class PxPy:
     """
-    Main class for dealing with px files. It is a collection of parsed px files 
+    Main class for dealing with px files. It is a collection of parsed px files
     for selected languages.
     """
+
     def __init__(self, parsed_data: Dict, selected_language: Optional[str]) -> None:
         self._data = parsed_data
         self._px_array: List[Px] = []
@@ -28,48 +29,40 @@ class PxPy:
 
         if not p or not p.exists() or p.is_dir():
             raise FileNotFoundError
-        
-        parsed_file = pcaxis.parsePX(p.open().read(), encoding='utf-8')
+
+        parsed_file = pcaxis.parsePX(p.open().read(), encoding="utf-8")
 
         return PxPy(parsed_file, selected_language)
 
-    
     @staticmethod
     def read_csv() -> None:
         pass
-    
-    
+
     @staticmethod
     def read_excel() -> None:
         pass
-   
-    
+
     @staticmethod
     def read_json() -> None:
         pass
-    
-    
+
     @staticmethod
     def read_dataFrame() -> None:
         pass
-    
-    
+
     @property
-    def language(self) -> str:
+    def language(self) -> Optional[str]:
         return self._px_array[self._selected_px_file_index].language
 
     @property
-    def title(self) -> str:
+    def title(self) -> Optional[str]:
         return self._px_array[self._selected_px_file_index].title
-
 
     def to_excel(self) -> None:
         pass
 
-
     def to_csv(self) -> None:
         pass
-
 
     def to_json(self) -> None:
         pass
@@ -81,6 +74,6 @@ class PxPy:
 class Px:
     def __init__(self, data: Dict) -> None:
         self._data = data
-        
+
         self.title = data.get("TITLE")
         self.language = data.get("LANGUAGE")
