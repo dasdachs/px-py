@@ -44,8 +44,8 @@ def t_FLOAT(token):
     return token
 
 
-def t_FLOAT(token):
-    r"\d+\.\d+"
+def t_INT(token):
+    r"\d+"
     token.value = int(token.value)
     return token
 
