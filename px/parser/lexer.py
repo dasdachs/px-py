@@ -16,31 +16,34 @@ __all__ = ["lexer"]
 
 
 tokens = (
-    "COMMA",
     "DELIMITER",
     "EQUAL",
+    "FLOAT",
+    "INT",
     "LPAREN",
-    "LSQAREPAREN",
+    "LSQUARE",
+    "NEWLINE",
     "QUOTE",
     "RPAREN",
-    "RSQAREPAREN",
-    "SPACE",
+    "RSQUARE",
+    "STRING",
+    "SEMI",
 )
 
+t_DELIMITER = r"[\t\n ,]"
 t_EQUAL = r"="
-t_DELIMITER = r"[\t ,;]"
 t_LPAREN = r"\("
 t_LSQUARE = r"\["
+t_NEWLINE = r"\n"
 t_QUOTE = r"\""
 t_RPAREN = r"\)"
 t_RSQUARE = r"\]"
-
-t_STRING = r"\w+"
+t_SEMI = r";"
 
 
 def t_FLOAT(token):
     r"\d+\.\d+"
-    token.value = int(token.value)
+    token.value = float(token.value)
     return token
 
 
@@ -49,5 +52,7 @@ def t_INT(token):
     token.value = int(token.value)
     return token
 
+
+t_STRING = r"[A-z0-9\-_:\ ]+"
 
 lexer = lex.lex()

@@ -1,0 +1,328 @@
+Created by PLY version 3.11 (http://www.dabeaz.com/ply)
+
+Grammar
+
+Rule 0     S' -> px
+Rule 1     px -> px NEWLINE key EQUAL values
+Rule 2     px -> key EQUAL values
+Rule 3     key -> STRING
+Rule 4     key -> STRING LSQUARE STRING RSQUARE
+Rule 5     key -> STRING LSQUARE STRING RSQUARE LPAREN STRING RPAREN
+Rule 6     values -> values DELIMITER value SEMI
+Rule 7     values -> value SEMI
+Rule 8     value -> STRING
+Rule 9     value -> FLOAT
+Rule 10    value -> INT
+Rule 11    value -> QUOTE STRING QUOTE
+Rule 12    value -> QUOTE FLOAT QUOTE
+Rule 13    value -> QUOTE INT QUOTE
+
+Terminals, with rules where they appear
+
+DELIMITER            : 6
+EQUAL                : 1 2
+FLOAT                : 9 12
+INT                  : 10 13
+LPAREN               : 5
+LSQUARE              : 4 5
+NEWLINE              : 1
+QUOTE                : 11 11 12 12 13 13
+RPAREN               : 5
+RSQUARE              : 4 5
+SEMI                 : 6 7
+STRING               : 3 4 4 5 5 5 8 11
+error                :
+
+Nonterminals, with rules where they appear
+
+key                  : 1 2
+px                   : 1 0
+value                : 6 7
+values               : 1 2 6
+
+Parsing method: LALR
+
+state 0
+
+    (0) S' -> . px
+    (1) px -> . px NEWLINE key EQUAL values
+    (2) px -> . key EQUAL values
+    (3) key -> . STRING
+    (4) key -> . STRING LSQUARE STRING RSQUARE
+    (5) key -> . STRING LSQUARE STRING RSQUARE LPAREN STRING RPAREN
+
+    STRING          shift and go to state 3
+
+    px                             shift and go to state 1
+    key                            shift and go to state 2
+
+state 1
+
+    (0) S' -> px .
+    (1) px -> px . NEWLINE key EQUAL values
+
+    NEWLINE         shift and go to state 4
+
+
+state 2
+
+    (2) px -> key . EQUAL values
+
+    EQUAL           shift and go to state 5
+
+
+state 3
+
+    (3) key -> STRING .
+    (4) key -> STRING . LSQUARE STRING RSQUARE
+    (5) key -> STRING . LSQUARE STRING RSQUARE LPAREN STRING RPAREN
+
+    EQUAL           reduce using rule 3 (key -> STRING .)
+    LSQUARE         shift and go to state 6
+
+
+state 4
+
+    (1) px -> px NEWLINE . key EQUAL values
+    (3) key -> . STRING
+    (4) key -> . STRING LSQUARE STRING RSQUARE
+    (5) key -> . STRING LSQUARE STRING RSQUARE LPAREN STRING RPAREN
+
+    STRING          shift and go to state 3
+
+    key                            shift and go to state 7
+
+state 5
+
+    (2) px -> key EQUAL . values
+    (6) values -> . values DELIMITER value SEMI
+    (7) values -> . value SEMI
+    (8) value -> . STRING
+    (9) value -> . FLOAT
+    (10) value -> . INT
+    (11) value -> . QUOTE STRING QUOTE
+    (12) value -> . QUOTE FLOAT QUOTE
+    (13) value -> . QUOTE INT QUOTE
+
+    STRING          shift and go to state 10
+    FLOAT           shift and go to state 11
+    INT             shift and go to state 12
+    QUOTE           shift and go to state 13
+
+    values                         shift and go to state 8
+    value                          shift and go to state 9
+
+state 6
+
+    (4) key -> STRING LSQUARE . STRING RSQUARE
+    (5) key -> STRING LSQUARE . STRING RSQUARE LPAREN STRING RPAREN
+
+    STRING          shift and go to state 14
+
+
+state 7
+
+    (1) px -> px NEWLINE key . EQUAL values
+
+    EQUAL           shift and go to state 15
+
+
+state 8
+
+    (2) px -> key EQUAL values .
+    (6) values -> values . DELIMITER value SEMI
+
+    NEWLINE         reduce using rule 2 (px -> key EQUAL values .)
+    $end            reduce using rule 2 (px -> key EQUAL values .)
+    DELIMITER       shift and go to state 16
+
+
+state 9
+
+    (7) values -> value . SEMI
+
+    SEMI            shift and go to state 17
+
+
+state 10
+
+    (8) value -> STRING .
+
+    SEMI            reduce using rule 8 (value -> STRING .)
+
+
+state 11
+
+    (9) value -> FLOAT .
+
+    SEMI            reduce using rule 9 (value -> FLOAT .)
+
+
+state 12
+
+    (10) value -> INT .
+
+    SEMI            reduce using rule 10 (value -> INT .)
+
+
+state 13
+
+    (11) value -> QUOTE . STRING QUOTE
+    (12) value -> QUOTE . FLOAT QUOTE
+    (13) value -> QUOTE . INT QUOTE
+
+    STRING          shift and go to state 18
+    FLOAT           shift and go to state 19
+    INT             shift and go to state 20
+
+
+state 14
+
+    (4) key -> STRING LSQUARE STRING . RSQUARE
+    (5) key -> STRING LSQUARE STRING . RSQUARE LPAREN STRING RPAREN
+
+    RSQUARE         shift and go to state 21
+
+
+state 15
+
+    (1) px -> px NEWLINE key EQUAL . values
+    (6) values -> . values DELIMITER value SEMI
+    (7) values -> . value SEMI
+    (8) value -> . STRING
+    (9) value -> . FLOAT
+    (10) value -> . INT
+    (11) value -> . QUOTE STRING QUOTE
+    (12) value -> . QUOTE FLOAT QUOTE
+    (13) value -> . QUOTE INT QUOTE
+
+    STRING          shift and go to state 10
+    FLOAT           shift and go to state 11
+    INT             shift and go to state 12
+    QUOTE           shift and go to state 13
+
+    values                         shift and go to state 22
+    value                          shift and go to state 9
+
+state 16
+
+    (6) values -> values DELIMITER . value SEMI
+    (8) value -> . STRING
+    (9) value -> . FLOAT
+    (10) value -> . INT
+    (11) value -> . QUOTE STRING QUOTE
+    (12) value -> . QUOTE FLOAT QUOTE
+    (13) value -> . QUOTE INT QUOTE
+
+    STRING          shift and go to state 10
+    FLOAT           shift and go to state 11
+    INT             shift and go to state 12
+    QUOTE           shift and go to state 13
+
+    value                          shift and go to state 23
+
+state 17
+
+    (7) values -> value SEMI .
+
+    DELIMITER       reduce using rule 7 (values -> value SEMI .)
+    NEWLINE         reduce using rule 7 (values -> value SEMI .)
+    $end            reduce using rule 7 (values -> value SEMI .)
+
+
+state 18
+
+    (11) value -> QUOTE STRING . QUOTE
+
+    QUOTE           shift and go to state 24
+
+
+state 19
+
+    (12) value -> QUOTE FLOAT . QUOTE
+
+    QUOTE           shift and go to state 25
+
+
+state 20
+
+    (13) value -> QUOTE INT . QUOTE
+
+    QUOTE           shift and go to state 26
+
+
+state 21
+
+    (4) key -> STRING LSQUARE STRING RSQUARE .
+    (5) key -> STRING LSQUARE STRING RSQUARE . LPAREN STRING RPAREN
+
+    EQUAL           reduce using rule 4 (key -> STRING LSQUARE STRING RSQUARE .)
+    LPAREN          shift and go to state 27
+
+
+state 22
+
+    (1) px -> px NEWLINE key EQUAL values .
+    (6) values -> values . DELIMITER value SEMI
+
+    NEWLINE         reduce using rule 1 (px -> px NEWLINE key EQUAL values .)
+    $end            reduce using rule 1 (px -> px NEWLINE key EQUAL values .)
+    DELIMITER       shift and go to state 16
+
+
+state 23
+
+    (6) values -> values DELIMITER value . SEMI
+
+    SEMI            shift and go to state 28
+
+
+state 24
+
+    (11) value -> QUOTE STRING QUOTE .
+
+    SEMI            reduce using rule 11 (value -> QUOTE STRING QUOTE .)
+
+
+state 25
+
+    (12) value -> QUOTE FLOAT QUOTE .
+
+    SEMI            reduce using rule 12 (value -> QUOTE FLOAT QUOTE .)
+
+
+state 26
+
+    (13) value -> QUOTE INT QUOTE .
+
+    SEMI            reduce using rule 13 (value -> QUOTE INT QUOTE .)
+
+
+state 27
+
+    (5) key -> STRING LSQUARE STRING RSQUARE LPAREN . STRING RPAREN
+
+    STRING          shift and go to state 29
+
+
+state 28
+
+    (6) values -> values DELIMITER value SEMI .
+
+    DELIMITER       reduce using rule 6 (values -> values DELIMITER value SEMI .)
+    NEWLINE         reduce using rule 6 (values -> values DELIMITER value SEMI .)
+    $end            reduce using rule 6 (values -> values DELIMITER value SEMI .)
+
+
+state 29
+
+    (5) key -> STRING LSQUARE STRING RSQUARE LPAREN STRING . RPAREN
+
+    RPAREN          shift and go to state 30
+
+
+state 30
+
+    (5) key -> STRING LSQUARE STRING RSQUARE LPAREN STRING RPAREN .
+
+    EQUAL           reduce using rule 5 (key -> STRING LSQUARE STRING RSQUARE LPAREN STRING RPAREN .)
