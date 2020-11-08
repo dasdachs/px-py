@@ -4,8 +4,8 @@ from typing import Dict, List
 
 import ply.yacc as yacc
 
-from .lexer import tokens
-from .interface import ParsedPxFile
+from px.parser.lexer import tokens
+from px.parser.interface import ParsedPxFile
 
 
 __all__ = ["parse_px"]
@@ -53,6 +53,8 @@ def p_key(p) -> Dict:
             p[1]: {"translations": {p[3]: {"translation_key": p[5], "value": None}}}
         }
 
+    print(list(p))
+
 
 def p_values(p):
     """
@@ -60,6 +62,7 @@ def p_values(p):
            | value SEMI
     """
     p[0] = [p[1]]
+    print(list(p))
 
     if len(p) == 4:
         for item in p[3]:
