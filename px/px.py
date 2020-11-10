@@ -51,11 +51,11 @@ class PxPy:
         pass
 
     @property
-    def language(self) -> str:
+    def language(self) -> Optional[str]:
         return self._px_array[self._selected_px_file_index].language
 
     @property
-    def title(self) -> str:
+    def title(self) -> Optional[str]:
         return self._px_array[self._selected_px_file_index].title
 
     def to_excel(self) -> None:
