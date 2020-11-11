@@ -27,7 +27,6 @@ tokens = (
     "RPAREN",
     "RSQUARE",
     "STRING",
-    "SEMI",
     "UNQUOTED_STRING",
 )
 
@@ -38,10 +37,7 @@ t_LSQUARE = r"\["
 t_NEWLINE = r"\n"
 t_RPAREN = r"\)"
 t_RSQUARE = r"\]"
-t_SEMI = r";"
 t_UNQUOTED_STRING = r"\w+"
-
-t_ignore = "\n"
 
 
 def t_FLOAT(token: LexToken) -> LexToken:
@@ -60,6 +56,14 @@ def t_STRING(token: LexToken) -> LexToken:
     r"\".*?\""
     token.value = token.value[1:-1]
     return token
+
+
+def t_newline(t):
+    r";"
+    t.lexer.lineno += len(t.value)
+
+
+t_ignore = "\n"
 
 
 def t_error(t):
