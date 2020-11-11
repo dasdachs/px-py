@@ -1,3 +1,4 @@
+# type: ignore
 """
 This is an update from https://github.com/zejn/pcaxis
 """

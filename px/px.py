@@ -2,8 +2,6 @@ import json
 from pathlib import Path
 from typing import List, Dict, Optional
 
-import pcaxis
-
 from .exceptions import FileNotFoundError
 
 
@@ -13,15 +11,12 @@ class PxPy:
     for selected languages.
     """
 
-    def __init__(self, parsed_data: Dict, selected_language: Optional[str]) -> None:
+    def __init__(
+        self, parsed_data: Dict[str, str], selected_language: Optional[str]
+    ) -> None:
         self._data = parsed_data
         self._px_array: List[Px] = []
         self._selected_px_file_index = 0
-
-        for index, file in enumerate(self._data.values()):
-            self._px_array.append(Px(file))
-            if file["LANGUAGE"] == selected_language:
-                self._selected_px_file_index = index
 
     @staticmethod
     def read_file(path: str, selected_language: Optional[str]) -> PxPy:
@@ -30,7 +25,7 @@ class PxPy:
         if not p or not p.exists() or p.is_dir():
             raise FileNotFoundError
 
-        parsed_file = pcaxis.parsePX(p.open().read(), encoding="utf-8")
+        parsed_file = {"test": "data"}
 
         return PxPy(parsed_file, selected_language)
 
