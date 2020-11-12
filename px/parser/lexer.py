@@ -37,7 +37,8 @@ t_LSQUARE = r"\["
 t_NEWLINE = r"\n"
 t_RPAREN = r"\)"
 t_RSQUARE = r"\]"
-t_UNQUOTED_STRING = r"\w+"
+# UNQUOTED_STRING are strings that do not allow any special characters, like commas etc
+t_UNQUOTED_STRING = r"[\w_-]+"
 
 
 def t_FLOAT(token: LexToken) -> LexToken:
