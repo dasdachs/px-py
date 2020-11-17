@@ -2,7 +2,11 @@ import json
 from pathlib import Path
 from typing import List, Dict, Optional
 
+from .parser import parse_px
 from .exceptions import FileNotFoundError
+
+
+__all__ = ["PxPy"]
 
 
 class PxPy:
@@ -12,22 +16,31 @@ class PxPy:
     """
 
     def __init__(
-        self, parsed_data: Dict[str, str], selected_language: Optional[str]
+        self, parsed_data: Dict, selected_language: Optional[str] = None
     ) -> None:
         self._data = parsed_data
         self._px_array: List[Px] = []
         self._selected_px_file_index = 0
+        print(parsed_data)
+        # for index, file in enumerate(self._data.values()):
+        #     self._px_array.append(Px(file))
+        #     if file["LANGUAGE"] == selected_language:
+        #         self._selected_px_file_index = index
 
     @staticmethod
-    def read_file(path: str, selected_language: Optional[str]) -> PxPy:
+    def read_file(path: str, selected_language: Optional[str] = None):
         p = Path(path)
 
         if not p or not p.exists() or p.is_dir():
             raise FileNotFoundError
 
-        parsed_file = {"test": "data"}
+        try:
+            content = p.read_bytes()
+            parsed_file = parse_px(content)
 
-        return PxPy(parsed_file, selected_language)
+            return PxPy(parsed_file, selected_language)
+        except UnicodeDecodeError as e:
+            print(f"Opening file throwed an UnicodeDecodeError. Error: {e}")
 
     @staticmethod
     def read_csv() -> None:
