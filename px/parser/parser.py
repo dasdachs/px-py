@@ -4,7 +4,7 @@ from typing import Dict, List
 
 import ply.yacc as yacc
 
-from px.parser.lexer import tokens
+from px.parser.lexer import PxLexer
 from px.parser.interface import ParsedPxFile
 
 

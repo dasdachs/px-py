@@ -3,7 +3,8 @@ from typing import Dict, List, Union
 
 import pytest
 
-from px.parser import lexer as lex
+from px.parser import PxLexer
+from .data.tokenized_files import tokenized_simple_px
 
 
 @pytest.mark.parametrize(
@@ -55,8 +56,11 @@ from px.parser import lexer as lex
         ),
     ],
 )
-def test_tokenize_single_line(line: str, token_values: List[str]) -> None:
+def test_tokenizer_gets_correct_values_for_single_line(
+    line: str, token_values: List[str]
+) -> None:
     """Lexer gets the correct values of on single lines"""
+    lex = PxLexer().lexer
     lex.input(line)
 
     while True:
@@ -146,8 +150,11 @@ def test_tokenize_single_line(line: str, token_values: List[str]) -> None:
         ),
     ],
 )
-def test_tokenize_multiple_line(line: str, token_values: List[str]) -> None:
+def test_tokenizer_gets_correct_values_for_multiple_line(
+    line: str, token_values: List[str]
+) -> None:
     """Lexer gets the correct values of on multiple lines"""
+    lex = PxLexer().lexer
     lex.input(line)
 
     while True:
@@ -159,143 +166,15 @@ def test_tokenize_multiple_line(line: str, token_values: List[str]) -> None:
 
 @pytest.mark.parametrize(
     "path_to_file, token_values",
-    [
-        (
-            [".", "tests", "data", "simple.px"],
-            [
-                "CHARSET",
-                "=",
-                "ANSI",
-                "COPYRIGHT",
-                "=",
-                "YES",
-                "DESCRIPTION",
-                "=",
-                "BDP Slovenija, letno",
-                "TITLE",
-                "=",
-                "BDP: MERITVE, LETO",
-                "HEADING",
-                "=",
-                "LETO",
-                "TIMEVAL",
-                "(",
-                "LETO",
-                ")",
-                "=",
-                "1995",
-                ",",
-                "1996",
-                "DATA",
-                "=",
-                10560.809918,
-                " ",
-                12147.285179,
-            ],
-        )
-    ],
+    [[[".", "tests", "data", "simple.px"], tokenized_simple_px[:]]],
 )
-def test_tokenize_file(
-    path_to_file: List[str], token_values: List[str], read_file
-) -> None:
-    """Lexer gets the correct values from a px file"""
-    content = read_file(path_to_file)
-    lex.input(content)
-
-    while True:
-        tok = lex.token()
-        if not tok:
-            break
-        print(dir(tok))
-        print(tok.__dict__)
-
-        assert tok.value == token_values.pop(0)
-
-
-@pytest.mark.skip(reason="Not finished yet")
-@pytest.mark.parametrize(
-    "path_to_file, token_values",
-    [
-        (
-            [".", "tests", "data", "simple.px"],
-            [
-                {
-                    "value": "CHARSET",
-                    "type": "UNQUOTED_STRING",
-                    "lexpos": 0,
-                    "lineno": 1,
-                },
-                {"value": "=", "type": "EQUAL", "lexpos": 7, "lineno": 1},
-                {"value": "ANSI", "type": "STRING", "lexpos": 8, "lineno": 1},
-                {
-                    "value": "COPYRIGHT",
-                    "type": "UNQUOTED_STRING",
-                    "lexpos": 0,
-                    "lineno": 2,
-                },
-                {"value": "=", "type": "EQUAL", "lexpos": 9, "lineno": 2},
-                {"value": "YES", "type": "UNQUOTED_STRING", "lexpos": 10, "lineno": 2},
-                {
-                    "value": "DESCRIPTION",
-                    "type": "UNQUOTED_STRING",
-                    "lexpos": 0,
-                    "lineno": 3,
-                },
-                {"value": "=", "type": "EQUAL", "lexpos": 11, "lineno": 3},
-                {
-                    "value": "BDP Slovenija, letno",
-                    "type": "STRING",
-                    "lexpos": 12,
-                    "lineno": 3,
-                },
-                {
-                    "value": "TITLE",
-                    "type": "UNQUOTED_STRING",
-                    "lexpos": 0,
-                    "lineno": 4,
-                },
-                {"value": "=", "type": "EQUAL", "lexpos": 5, "lineno": 4},
-                {
-                    "value": "BDP: MERITVE, LETO",
-                    "type": "STRING",
-                    "lexpos": 6,
-                    "lineno": 4,
-                },
-                {
-                    "value": "HEADING",
-                    "type": "UNQUOTED_STRING",
-                    "lexpos": 0,
-                    "lineno": 5,
-                },
-                {"value": "=", "type": "EQUAL", "lexpos": 7, "lineno": 5},
-                {"value": "LETO", "type": "STRING", "lexpos": 8, "lineno": 5},
-                {
-                    "value": "TIMEVAL",
-                    "type": "UNQUOTED_STRING",
-                    "lexpos": 0,
-                    "lineno": 6,
-                },
-                {"value": "(", "type": "LPAREN", "lexpos": 7, "lineno": 6},
-                {"value": "LETO", "type": "STRING", "lexpos": 8, "lineno": 6},
-                {"value": ")", "type": "RPAREN", "lexpos": 14, "lineno": 6},
-                {"value": "=", "type": "EQUAL", "lexpos": 15, "lineno": 6},
-                {"value": "1995", "type": "STRING", "lexpos": 16, "lineno": 6},
-                {"value": ",", "type": "DELIMITER", "lexpos": 22, "lineno": 6},
-                {"value": "1996", "type": "STRING", "lexpos": 23, "lineno": 6},
-                {"value": "DATA", "type": "UNQUOTED_STRING", "lexpos": 0, "lineno": 7},
-                {"value": "=", "type": "EQUAL", "lexpos": 3, "lineno": 7},
-                {"value": 10560.809918, "type": "FLOAT", "lexpos": 5, "lineno": 7},
-                {"value": " ", "type": "DELIMITER", "lexpos": 17, "lineno": 7},
-                {"value": 12147.285179, "type": "FLOAT", "lexpos": 18, "lineno": 7},
-            ],
-        )
-    ],
-)
-def test_lexer_generates_correct_tokens_for_file(
+def test_lexer_gets_correct_values_from_file(
     path_to_file: List[str], token_values: List[Dict[str, Union[str, int]]], read_file
 ) -> None:
     """Lexer gets the correct values from a px file"""
     content = read_file(path_to_file)
+
+    lex = PxLexer().lexer
     lex.input(content)
 
     while True:
@@ -304,10 +183,70 @@ def test_lexer_generates_correct_tokens_for_file(
             break
         expected_token = token_values.pop(0)
 
-        print(tok)
-        print(tok.lexpos)
-
         assert tok.value == expected_token["value"]
+
+
+@pytest.mark.parametrize(
+    "path_to_file, token_values",
+    [[[".", "tests", "data", "simple.px"], tokenized_simple_px[:]]],
+)
+def test_lexer_gets_correct_types_from_file(
+    path_to_file: List[str], token_values: List[Dict[str, Union[str, int]]], read_file
+) -> None:
+    """Lexer gets the correct values from a px file"""
+    content = read_file(path_to_file)
+
+    lex = PxLexer().lexer
+    lex.input(content)
+
+    while True:
+        tok = lex.token()
+        if not tok:
+            break
+        expected_token = token_values.pop(0)
+
         assert tok.type == expected_token["type"]
+
+
+@pytest.mark.parametrize(
+    "path_to_file, token_values",
+    [[[".", "tests", "data", "simple.px"], tokenized_simple_px[:]]],
+)
+def test_lexer_gets_correct_line_from_file(
+    path_to_file: List[str], token_values: List[Dict[str, Union[str, int]]], read_file
+) -> None:
+    """Lexer gets the correct values from a px file"""
+    content = read_file(path_to_file)
+
+    lex = PxLexer().lexer
+    lex.input(content)
+
+    while True:
+        tok = lex.token()
+        if not tok:
+            break
+        expected_token = token_values.pop(0)
+
         assert tok.lineno == expected_token["lineno"]
+
+
+@pytest.mark.parametrize(
+    "path_to_file, token_values",
+    [[[".", "tests", "data", "simple.px"], tokenized_simple_px[:]]],
+)
+def test_lexer_gets_correct_position_from_file(
+    path_to_file: List[str], token_values: List[Dict[str, Union[str, int]]], read_file
+) -> None:
+    """Lexer gets the correct values from a px file"""
+    content = read_file(path_to_file)
+
+    lex = PxLexer().lexer
+    lex.input(content)
+
+    while True:
+        tok = lex.token()
+        if not tok:
+            break
+        expected_token = token_values.pop(0)
+
         assert tok.lexpos == expected_token["lexpos"]

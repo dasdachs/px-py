@@ -4,10 +4,11 @@ from typing import List, Optional
 import pytest
 
 
-@pytest.fixture
+@pytest.fixture(scope="function")
 def read_file():
-    def _read_file(path_to_file_parts: List[str], encoding="UTF-8") -> str:
+    def _read_file(path_to_file_parts: List[str], encoding="utf-8") -> str:
         p = Path(*path_to_file_parts)
-        return p.read_text(encoding=encoding)
+        content = p.read_text(encoding=encoding)
+        return content
 
     return _read_file
