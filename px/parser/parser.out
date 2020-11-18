@@ -3,98 +3,104 @@ Created by PLY version 3.11 (http://www.dabeaz.com/ply)
 Grammar
 
 Rule 0     S' -> px
-Rule 1     px -> key_value
-Rule 2     px -> px key_value
+Rule 1     px -> px key_value
+Rule 2     px -> key_value
 Rule 3     key_value -> key EQUAL values
 Rule 4     key -> key_with_translation
-Rule 5     key -> simple_key
-Rule 6     simple_key -> UNQUOTED_STRING
-Rule 7     key_with_translation -> UNQUOTED_STRING LSQUARE UNQUOTED_STRING RSQUARE
-Rule 8     key -> UNQUOTED_STRING LSQUARE STRING RSQUARE LPAREN STRING RPAREN
-Rule 9     values -> values DELIMITER value
-Rule 10    values -> value
-Rule 11    value -> UNQUOTED_STRING
-Rule 12    value -> FLOAT
-Rule 13    value -> INT
-Rule 14    value -> STRING
+Rule 5     key -> key_with_and_stub
+Rule 6     key -> simple_key
+Rule 7     simple_key -> UNQUOTED_STRING
+Rule 8     key_with_translation -> UNQUOTED_STRING LSQUARE UNQUOTED_STRING RSQUARE
+Rule 9     key_with_and_stub -> UNQUOTED_STRING LPAREN STRING RPAREN
+Rule 10    values -> values DELIMITER value
+Rule 11    values -> value
+Rule 12    value -> UNQUOTED_STRING
+Rule 13    value -> FLOAT
+Rule 14    value -> INT
+Rule 15    value -> STRING
 
 Terminals, with rules where they appear
 
-DELIMITER            : 9
+DELIMITER            : 10
 EQUAL                : 3
-FLOAT                : 12
-INT                  : 13
-LPAREN               : 8
-LSQUARE              : 7 8
-RPAREN               : 8
-RSQUARE              : 7 8
-STRING               : 8 8 14
-UNQUOTED_STRING      : 6 7 7 8 11
+FLOAT                : 13
+INT                  : 14
+LPAREN               : 9
+LSQUARE              : 8
+RPAREN               : 9
+RSQUARE              : 8
+STRING               : 9 15
+UNQUOTED_STRING      : 7 8 8 9 12
 error                :
 
 Nonterminals, with rules where they appear
 
 key                  : 3
 key_value            : 1 2
+key_with_and_stub    : 5
 key_with_translation : 4
-px                   : 2 0
-simple_key           : 5
-value                : 9 10
-values               : 3 9
+px                   : 1 0
+simple_key           : 6
+value                : 10 11
+values               : 3 10
 
 Parsing method: LALR
 
 state 0
 
     (0) S' -> . px
-    (1) px -> . key_value
-    (2) px -> . px key_value
+    (1) px -> . px key_value
+    (2) px -> . key_value
     (3) key_value -> . key EQUAL values
     (4) key -> . key_with_translation
-    (5) key -> . simple_key
-    (8) key -> . UNQUOTED_STRING LSQUARE STRING RSQUARE LPAREN STRING RPAREN
-    (7) key_with_translation -> . UNQUOTED_STRING LSQUARE UNQUOTED_STRING RSQUARE
-    (6) simple_key -> . UNQUOTED_STRING
+    (5) key -> . key_with_and_stub
+    (6) key -> . simple_key
+    (8) key_with_translation -> . UNQUOTED_STRING LSQUARE UNQUOTED_STRING RSQUARE
+    (9) key_with_and_stub -> . UNQUOTED_STRING LPAREN STRING RPAREN
+    (7) simple_key -> . UNQUOTED_STRING
 
-    UNQUOTED_STRING shift and go to state 6
+    UNQUOTED_STRING shift and go to state 7
 
     px                             shift and go to state 1
     key_value                      shift and go to state 2
     key                            shift and go to state 3
     key_with_translation           shift and go to state 4
-    simple_key                     shift and go to state 5
+    key_with_and_stub              shift and go to state 5
+    simple_key                     shift and go to state 6
 
 state 1
 
     (0) S' -> px .
-    (2) px -> px . key_value
+    (1) px -> px . key_value
     (3) key_value -> . key EQUAL values
     (4) key -> . key_with_translation
-    (5) key -> . simple_key
-    (8) key -> . UNQUOTED_STRING LSQUARE STRING RSQUARE LPAREN STRING RPAREN
-    (7) key_with_translation -> . UNQUOTED_STRING LSQUARE UNQUOTED_STRING RSQUARE
-    (6) simple_key -> . UNQUOTED_STRING
+    (5) key -> . key_with_and_stub
+    (6) key -> . simple_key
+    (8) key_with_translation -> . UNQUOTED_STRING LSQUARE UNQUOTED_STRING RSQUARE
+    (9) key_with_and_stub -> . UNQUOTED_STRING LPAREN STRING RPAREN
+    (7) simple_key -> . UNQUOTED_STRING
 
-    UNQUOTED_STRING shift and go to state 6
+    UNQUOTED_STRING shift and go to state 7
 
-    key_value                      shift and go to state 7
+    key_value                      shift and go to state 8
     key                            shift and go to state 3
     key_with_translation           shift and go to state 4
-    simple_key                     shift and go to state 5
+    key_with_and_stub              shift and go to state 5
+    simple_key                     shift and go to state 6
 
 state 2
 
-    (1) px -> key_value .
+    (2) px -> key_value .
 
-    UNQUOTED_STRING reduce using rule 1 (px -> key_value .)
-    $end            reduce using rule 1 (px -> key_value .)
+    UNQUOTED_STRING reduce using rule 2 (px -> key_value .)
+    $end            reduce using rule 2 (px -> key_value .)
 
 
 state 3
 
     (3) key_value -> key . EQUAL values
 
-    EQUAL           shift and go to state 8
+    EQUAL           shift and go to state 9
 
 
 state 4
@@ -106,179 +112,171 @@ state 4
 
 state 5
 
-    (5) key -> simple_key .
+    (5) key -> key_with_and_stub .
 
-    EQUAL           reduce using rule 5 (key -> simple_key .)
+    EQUAL           reduce using rule 5 (key -> key_with_and_stub .)
 
 
 state 6
 
-    (8) key -> UNQUOTED_STRING . LSQUARE STRING RSQUARE LPAREN STRING RPAREN
-    (7) key_with_translation -> UNQUOTED_STRING . LSQUARE UNQUOTED_STRING RSQUARE
-    (6) simple_key -> UNQUOTED_STRING .
+    (6) key -> simple_key .
 
-    LSQUARE         shift and go to state 9
-    EQUAL           reduce using rule 6 (simple_key -> UNQUOTED_STRING .)
+    EQUAL           reduce using rule 6 (key -> simple_key .)
 
 
 state 7
 
-    (2) px -> px key_value .
+    (8) key_with_translation -> UNQUOTED_STRING . LSQUARE UNQUOTED_STRING RSQUARE
+    (9) key_with_and_stub -> UNQUOTED_STRING . LPAREN STRING RPAREN
+    (7) simple_key -> UNQUOTED_STRING .
 
-    UNQUOTED_STRING reduce using rule 2 (px -> px key_value .)
-    $end            reduce using rule 2 (px -> px key_value .)
+    LSQUARE         shift and go to state 10
+    LPAREN          shift and go to state 11
+    EQUAL           reduce using rule 7 (simple_key -> UNQUOTED_STRING .)
 
 
 state 8
 
-    (3) key_value -> key EQUAL . values
-    (9) values -> . values DELIMITER value
-    (10) values -> . value
-    (11) value -> . UNQUOTED_STRING
-    (12) value -> . FLOAT
-    (13) value -> . INT
-    (14) value -> . STRING
+    (1) px -> px key_value .
 
-    UNQUOTED_STRING shift and go to state 12
-    FLOAT           shift and go to state 13
-    INT             shift and go to state 14
-    STRING          shift and go to state 15
+    UNQUOTED_STRING reduce using rule 1 (px -> px key_value .)
+    $end            reduce using rule 1 (px -> px key_value .)
 
-    values                         shift and go to state 10
-    value                          shift and go to state 11
 
 state 9
 
-    (8) key -> UNQUOTED_STRING LSQUARE . STRING RSQUARE LPAREN STRING RPAREN
-    (7) key_with_translation -> UNQUOTED_STRING LSQUARE . UNQUOTED_STRING RSQUARE
+    (3) key_value -> key EQUAL . values
+    (10) values -> . values DELIMITER value
+    (11) values -> . value
+    (12) value -> . UNQUOTED_STRING
+    (13) value -> . FLOAT
+    (14) value -> . INT
+    (15) value -> . STRING
 
+    UNQUOTED_STRING shift and go to state 14
+    FLOAT           shift and go to state 15
+    INT             shift and go to state 16
     STRING          shift and go to state 17
-    UNQUOTED_STRING shift and go to state 16
 
+    values                         shift and go to state 12
+    value                          shift and go to state 13
 
 state 10
 
-    (3) key_value -> key EQUAL values .
-    (9) values -> values . DELIMITER value
+    (8) key_with_translation -> UNQUOTED_STRING LSQUARE . UNQUOTED_STRING RSQUARE
 
-    UNQUOTED_STRING reduce using rule 3 (key_value -> key EQUAL values .)
-    $end            reduce using rule 3 (key_value -> key EQUAL values .)
-    DELIMITER       shift and go to state 18
+    UNQUOTED_STRING shift and go to state 18
 
 
 state 11
 
-    (10) values -> value .
+    (9) key_with_and_stub -> UNQUOTED_STRING LPAREN . STRING RPAREN
 
-    DELIMITER       reduce using rule 10 (values -> value .)
-    UNQUOTED_STRING reduce using rule 10 (values -> value .)
-    $end            reduce using rule 10 (values -> value .)
+    STRING          shift and go to state 19
 
 
 state 12
 
-    (11) value -> UNQUOTED_STRING .
+    (3) key_value -> key EQUAL values .
+    (10) values -> values . DELIMITER value
 
-    DELIMITER       reduce using rule 11 (value -> UNQUOTED_STRING .)
-    UNQUOTED_STRING reduce using rule 11 (value -> UNQUOTED_STRING .)
-    $end            reduce using rule 11 (value -> UNQUOTED_STRING .)
+    UNQUOTED_STRING reduce using rule 3 (key_value -> key EQUAL values .)
+    $end            reduce using rule 3 (key_value -> key EQUAL values .)
+    DELIMITER       shift and go to state 20
 
 
 state 13
 
-    (12) value -> FLOAT .
+    (11) values -> value .
 
-    DELIMITER       reduce using rule 12 (value -> FLOAT .)
-    UNQUOTED_STRING reduce using rule 12 (value -> FLOAT .)
-    $end            reduce using rule 12 (value -> FLOAT .)
+    DELIMITER       reduce using rule 11 (values -> value .)
+    UNQUOTED_STRING reduce using rule 11 (values -> value .)
+    $end            reduce using rule 11 (values -> value .)
 
 
 state 14
 
-    (13) value -> INT .
+    (12) value -> UNQUOTED_STRING .
 
-    DELIMITER       reduce using rule 13 (value -> INT .)
-    UNQUOTED_STRING reduce using rule 13 (value -> INT .)
-    $end            reduce using rule 13 (value -> INT .)
+    DELIMITER       reduce using rule 12 (value -> UNQUOTED_STRING .)
+    UNQUOTED_STRING reduce using rule 12 (value -> UNQUOTED_STRING .)
+    $end            reduce using rule 12 (value -> UNQUOTED_STRING .)
 
 
 state 15
 
-    (14) value -> STRING .
+    (13) value -> FLOAT .
 
-    DELIMITER       reduce using rule 14 (value -> STRING .)
-    UNQUOTED_STRING reduce using rule 14 (value -> STRING .)
-    $end            reduce using rule 14 (value -> STRING .)
+    DELIMITER       reduce using rule 13 (value -> FLOAT .)
+    UNQUOTED_STRING reduce using rule 13 (value -> FLOAT .)
+    $end            reduce using rule 13 (value -> FLOAT .)
 
 
 state 16
 
-    (7) key_with_translation -> UNQUOTED_STRING LSQUARE UNQUOTED_STRING . RSQUARE
+    (14) value -> INT .
 
-    RSQUARE         shift and go to state 19
+    DELIMITER       reduce using rule 14 (value -> INT .)
+    UNQUOTED_STRING reduce using rule 14 (value -> INT .)
+    $end            reduce using rule 14 (value -> INT .)
 
 
 state 17
 
-    (8) key -> UNQUOTED_STRING LSQUARE STRING . RSQUARE LPAREN STRING RPAREN
+    (15) value -> STRING .
 
-    RSQUARE         shift and go to state 20
+    DELIMITER       reduce using rule 15 (value -> STRING .)
+    UNQUOTED_STRING reduce using rule 15 (value -> STRING .)
+    $end            reduce using rule 15 (value -> STRING .)
 
 
 state 18
 
-    (9) values -> values DELIMITER . value
-    (11) value -> . UNQUOTED_STRING
-    (12) value -> . FLOAT
-    (13) value -> . INT
-    (14) value -> . STRING
+    (8) key_with_translation -> UNQUOTED_STRING LSQUARE UNQUOTED_STRING . RSQUARE
 
-    UNQUOTED_STRING shift and go to state 12
-    FLOAT           shift and go to state 13
-    INT             shift and go to state 14
-    STRING          shift and go to state 15
+    RSQUARE         shift and go to state 21
 
-    value                          shift and go to state 21
 
 state 19
 
-    (7) key_with_translation -> UNQUOTED_STRING LSQUARE UNQUOTED_STRING RSQUARE .
+    (9) key_with_and_stub -> UNQUOTED_STRING LPAREN STRING . RPAREN
 
-    EQUAL           reduce using rule 7 (key_with_translation -> UNQUOTED_STRING LSQUARE UNQUOTED_STRING RSQUARE .)
+    RPAREN          shift and go to state 22
 
 
 state 20
 
-    (8) key -> UNQUOTED_STRING LSQUARE STRING RSQUARE . LPAREN STRING RPAREN
+    (10) values -> values DELIMITER . value
+    (12) value -> . UNQUOTED_STRING
+    (13) value -> . FLOAT
+    (14) value -> . INT
+    (15) value -> . STRING
 
-    LPAREN          shift and go to state 22
+    UNQUOTED_STRING shift and go to state 14
+    FLOAT           shift and go to state 15
+    INT             shift and go to state 16
+    STRING          shift and go to state 17
 
+    value                          shift and go to state 23
 
 state 21
 
-    (9) values -> values DELIMITER value .
+    (8) key_with_translation -> UNQUOTED_STRING LSQUARE UNQUOTED_STRING RSQUARE .
 
-    DELIMITER       reduce using rule 9 (values -> values DELIMITER value .)
-    UNQUOTED_STRING reduce using rule 9 (values -> values DELIMITER value .)
-    $end            reduce using rule 9 (values -> values DELIMITER value .)
+    EQUAL           reduce using rule 8 (key_with_translation -> UNQUOTED_STRING LSQUARE UNQUOTED_STRING RSQUARE .)
 
 
 state 22
 
-    (8) key -> UNQUOTED_STRING LSQUARE STRING RSQUARE LPAREN . STRING RPAREN
+    (9) key_with_and_stub -> UNQUOTED_STRING LPAREN STRING RPAREN .
 
-    STRING          shift and go to state 23
+    EQUAL           reduce using rule 9 (key_with_and_stub -> UNQUOTED_STRING LPAREN STRING RPAREN .)
 
 
 state 23
 
-    (8) key -> UNQUOTED_STRING LSQUARE STRING RSQUARE LPAREN STRING . RPAREN
+    (10) values -> values DELIMITER value .
 
-    RPAREN          shift and go to state 24
-
-
-state 24
-
-    (8) key -> UNQUOTED_STRING LSQUARE STRING RSQUARE LPAREN STRING RPAREN .
-
-    EQUAL           reduce using rule 8 (key -> UNQUOTED_STRING LSQUARE STRING RSQUARE LPAREN STRING RPAREN .)
+    DELIMITER       reduce using rule 10 (values -> values DELIMITER value .)
+    UNQUOTED_STRING reduce using rule 10 (values -> values DELIMITER value .)
+    $end            reduce using rule 10 (values -> values DELIMITER value .)

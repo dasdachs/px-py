@@ -31,12 +31,13 @@ class PxParser(object):
 
     def p_px(self, p) -> Dict[str, Union[str, int, float]]:
         """
-        px : key_value
-           | px key_value
+        px : px key_value
+           | key_value
         """
         if len(p) == 3:
             p[0] = {**p[1], **p[2]}
-        p[0] = p[1]
+        else:
+            p[0] = p[1]
 
     def p_key_value(self, p) -> Dict:
         """
@@ -49,6 +50,7 @@ class PxParser(object):
     def p_key(self, p) -> Dict:
         """
         key : key_with_translation
+            | key_with_and_stub
             | simple_key
         """
         key = list(p[1].keys())[0]
@@ -82,11 +84,20 @@ class PxParser(object):
             }
         }
 
-    def p_key_with_translation_and_stub(self, p) -> Dict:
+    def p_key_with_and_stub(self, p) -> Dict:
         """
-        key : UNQUOTED_STRING LSQUARE STRING RSQUARE LPAREN STRING RPAREN
+        key_with_and_stub : UNQUOTED_STRING LPAREN STRING RPAREN
         """
-        print(p[0])
+        p[0] = {
+            p[1].lower(): {
+                "default": {
+                    "key": p[1],
+                    "link_to_heading_value": p[3],
+                    "values": [],
+                },
+                "translations": {},
+            }
+        }
 
     def p_values(self, p):
         """
