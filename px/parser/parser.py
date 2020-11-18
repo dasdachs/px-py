@@ -1,80 +1,109 @@
 # type: ignore
 from pathlib import Path
-from typing import Dict, List
+from typing import Dict, List, Union
 
 import ply.yacc as yacc
 
 from px.parser.lexer import PxLexer
-from px.parser.interface import ParsedPxFile
+
+# from px.parser.interface import ParsedPxFile
 
 
-__all__ = ["parse_px"]
+__all__ = ["PxParser"]
 
 
-parsed_file: ParsedPxFile = {}
+class PxParser(object):
+    tokens = PxLexer.tokens
 
+    def __init__(self):
+        self._lexer = PxLexer().lexer
+        self._parser = yacc.yacc(module=self)
+        self.parsed_file = {}
 
-def parse_px(file: Path, encoding: str) -> Dict:
-    """
-    Main method to start the parsing process.
-    """
-    parser = yacc.yacc()
+    def parse(self, text: str):
+        """
+        Main method to start the parsing process.
+        """
+        return self._parser.parse(text)
 
-    encoded_file = file.read_text(encoding=encoding)
-    parser.parse(encoded_file)
+    def parse_file(self, file: Path, encoding: str) -> Dict:
+        pass
 
-    return parsed_file
+    def p_px(self, p) -> Dict[str, Union[str, int, float]]:
+        """
+        px : key_value
+           | px key_value
+        """
+        if len(p) == 3:
+            p[0] = {**p[1], **p[2]}
+        p[0] = p[1]
 
+    def p_key_value(self, p) -> Dict:
+        """
+        key_value : key EQUAL values
+        """
+        key = p[1]["key"]
+        p[1]["parsed_values"][key]["default"]["values"] = p[3]
+        p[0] = p[1]["parsed_values"]
 
-def p_px(p):
-    """
-    px : px NEWLINE key EQUAL values
-       | key EQUAL values
-    """
-    print(list(p))
+    def p_key(self, p) -> Dict:
+        """
+        key : key_with_translation
+            | simple_key
+        """
+        key = list(p[1].keys())[0]
+        p[0] = {"key": key, "parsed_values": p[1]}
 
-
-def p_key(p) -> Dict:
-    """
-    key : STRING
-        | STRING LSQUARE STRING RSQUARE
-        | STRING LSQUARE STRING RSQUARE LPAREN STRING RPAREN
-    """
-    length = len(p)
-
-    if length == 2:
-        p[0] = {p[1]: {"translations": None}}
-    elif length == 4:
+    def p_simple_key(self, p) -> Dict:
+        """
+        simple_key : UNQUOTED_STRING
+        """
         p[0] = {
-            p[1]: {"translations": {p[3]: {"translation_key": None, "value": None}}}
+            p[1].lower(): {
+                "default": {
+                    "key": p[1],
+                    "values": [],
+                },
+                "translations": {},
+            }
         }
-    else:
+
+    def p_key_with_translation(self, p) -> Dict:
+        """
+        key_with_translation : UNQUOTED_STRING LSQUARE UNQUOTED_STRING RSQUARE
+        """
         p[0] = {
-            p[1]: {"translations": {p[3]: {"translation_key": p[5], "value": None}}}
+            p[1].lower(): {
+                "default": {
+                    "key": p[1],
+                    "values": [],
+                },
+                "translations": {p[3]: {"data": []}},
+            }
         }
 
-    print(list(p))
+    def p_key_with_translation_and_stub(self, p) -> Dict:
+        """
+        key : UNQUOTED_STRING LSQUARE STRING RSQUARE LPAREN STRING RPAREN
+        """
+        print(p[0])
 
+    def p_values(self, p):
+        """
+        values : values DELIMITER value
+               | value
+        """
+        if len(p) == 4:
+            p[1].append(p[3])
+        else:
+            p[1] = [p[1]]
+        p[0] = p[1]
 
-def p_values(p):
-    """
-    values : values DELIMITER value SEMI
-           | value SEMI
-    """
-    p[0] = [p[1]]
-    print(list(p))
-
-    if len(p) == 4:
-        for item in p[3]:
-            p[0].append(item)
-
-
-def p_value(p):
-    """
-    value : STRING
-          | FLOAT
-          | INT
-          | QUOTE STRING QUOTE
-          | QUOTE FLOAT QUOTE
-          | QUOTE INT QUOTE
-    """
+    def p_value(self, p):
+        """
+        value : UNQUOTED_STRING
+              | FLOAT
+              | INT
+              | STRING
+        """
+        p[0] = p[1]

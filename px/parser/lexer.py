@@ -24,7 +24,6 @@ class PxLexer(object):
         "INT",
         "LPAREN",
         "LSQUARE",
-        "NEWLINE",
         "RPAREN",
         "RSQUARE",
         "STRING",
@@ -35,7 +34,6 @@ class PxLexer(object):
     t_EQUAL = r"="
     t_LPAREN = r"\("
     t_LSQUARE = r"\["
-    t_NEWLINE = r"\n"
     t_RPAREN = r"\)"
     t_RSQUARE = r"\]"
     # UNQUOTED_STRING are strings that do not allow any special characters, like commas etc

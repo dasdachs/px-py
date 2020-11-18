@@ -2,7 +2,7 @@ import json
 from pathlib import Path
 from typing import List, Dict, Optional
 
-from .parser import parse_px
+from px.parser import PxParser
 from .exceptions import FileNotFoundError
 
 
@@ -36,7 +36,7 @@ class PxPy:
 
         try:
             content = p.read_bytes()
-            parsed_file = parse_px(content)
+            parsed_file = PxParser().parse(content)
 
             return PxPy(parsed_file, selected_language)
         except UnicodeDecodeError as e:
