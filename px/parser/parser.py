@@ -18,7 +18,6 @@ class PxParser(object):
     def __init__(self):
         self._lexer = PxLexer().lexer
         self._parser = yacc.yacc(module=self)
-        self.parsed_file = {}
 
     def parse(self, text: str):
         """
