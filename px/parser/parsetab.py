@@ -6,191 +6,171 @@ _tabversion = "3.10"
 
 _lr_method = "LALR"
 
-_lr_signature = "DELIMITER EQUAL FLOAT INT LPAREN LSQUARE NEWLINE QUOTE RPAREN RSQUARE SEMI STRING\n    px : px NEWLINE key EQUAL values\n       | key EQUAL values\n    \n    key : STRING\n        | STRING LSQUARE STRING RSQUARE\n        | STRING LSQUARE STRING RSQUARE LPAREN STRING RPAREN\n    \n    values : values DELIMITER value SEMI\n           | value SEMI\n    \n    value : STRING\n          | FLOAT\n          | INT\n          | QUOTE STRING QUOTE\n          | QUOTE FLOAT QUOTE\n          | QUOTE INT QUOTE\n    "
+_lr_signature = "DELIMITER EQUAL FLOAT INT LPAREN LSQUARE RPAREN RSQUARE STRING UNQUOTED_STRING\n        px : px key_value\n           | key_value\n        \n        key_value : key EQUAL values\n        \n        key : key_with_translation\n            | key_with_and_stub\n            | simple_key\n        \n        simple_key : UNQUOTED_STRING\n        \n        key_with_translation : UNQUOTED_STRING LSQUARE UNQUOTED_STRING RSQUARE\n        \n        key_with_and_stub : UNQUOTED_STRING LPAREN STRING RPAREN\n        \n        values : values DELIMITER value\n               | value\n        \n        value : UNQUOTED_STRING\n              | FLOAT\n              | INT\n              | STRING\n        "
 
 _lr_action_items = {
-    "STRING": (
+    "UNQUOTED_STRING": (
         [
             0,
-            4,
-            5,
-            6,
+            1,
+            2,
+            8,
+            9,
+            10,
+            12,
             13,
+            14,
             15,
             16,
-            27,
+            17,
+            20,
+            23,
         ],
         [
-            3,
-            3,
-            10,
+            7,
+            7,
+            -2,
+            -1,
             14,
             18,
-            10,
-            10,
-            29,
+            -3,
+            -11,
+            -12,
+            -13,
+            -14,
+            -15,
+            14,
+            -10,
         ],
     ),
     "$end": (
         [
             1,
+            2,
             8,
+            12,
+            13,
+            14,
+            15,
+            16,
             17,
-            22,
-            28,
+            23,
         ],
         [
             0,
             -2,
-            -7,
             -1,
-            -6,
-        ],
-    ),
-    "NEWLINE": (
-        [
-            1,
-            8,
-            17,
-            22,
-            28,
-        ],
-        [
-            4,
-            -2,
-            -7,
-            -1,
-            -6,
+            -3,
+            -11,
+            -12,
+            -13,
+            -14,
+            -15,
+            -10,
         ],
     ),
     "EQUAL": (
         [
-            2,
             3,
+            4,
+            5,
+            6,
             7,
             21,
-            30,
+            22,
         ],
         [
-            5,
-            -3,
-            15,
+            9,
             -4,
             -5,
+            -6,
+            -7,
+            -8,
+            -9,
         ],
     ),
     "LSQUARE": (
         [
-            3,
+            7,
         ],
         [
-            6,
-        ],
-    ),
-    "FLOAT": (
-        [
-            5,
-            13,
-            15,
-            16,
-        ],
-        [
-            11,
-            19,
-            11,
-            11,
-        ],
-    ),
-    "INT": (
-        [
-            5,
-            13,
-            15,
-            16,
-        ],
-        [
-            12,
-            20,
-            12,
-            12,
-        ],
-    ),
-    "QUOTE": (
-        [
-            5,
-            15,
-            16,
-            18,
-            19,
-            20,
-        ],
-        [
-            13,
-            13,
-            13,
-            24,
-            25,
-            26,
-        ],
-    ),
-    "DELIMITER": (
-        [
-            8,
-            17,
-            22,
-            28,
-        ],
-        [
-            16,
-            -7,
-            16,
-            -6,
-        ],
-    ),
-    "SEMI": (
-        [
-            9,
             10,
-            11,
-            12,
-            23,
-            24,
-            25,
-            26,
-        ],
-        [
-            17,
-            -8,
-            -9,
-            -10,
-            28,
-            -11,
-            -12,
-            -13,
-        ],
-    ),
-    "RSQUARE": (
-        [
-            14,
-        ],
-        [
-            21,
         ],
     ),
     "LPAREN": (
         [
-            21,
+            7,
         ],
         [
-            27,
+            11,
+        ],
+    ),
+    "FLOAT": (
+        [
+            9,
+            20,
+        ],
+        [
+            15,
+            15,
+        ],
+    ),
+    "INT": (
+        [
+            9,
+            20,
+        ],
+        [
+            16,
+            16,
+        ],
+    ),
+    "STRING": (
+        [
+            9,
+            11,
+            20,
+        ],
+        [
+            17,
+            19,
+            17,
+        ],
+    ),
+    "DELIMITER": (
+        [
+            12,
+            13,
+            14,
+            15,
+            16,
+            17,
+            23,
+        ],
+        [
+            20,
+            -11,
+            -12,
+            -13,
+            -14,
+            -15,
+            -10,
+        ],
+    ),
+    "RSQUARE": (
+        [
+            18,
+        ],
+        [
+            21,
         ],
     ),
     "RPAREN": (
         [
-            29,
+            19,
         ],
         [
-            30,
+            22,
         ],
     ),
 }
@@ -212,35 +192,71 @@ _lr_goto_items = {
             1,
         ],
     ),
-    "key": (
+    "key_value": (
         [
             0,
-            4,
+            1,
         ],
         [
             2,
-            7,
+            8,
+        ],
+    ),
+    "key": (
+        [
+            0,
+            1,
+        ],
+        [
+            3,
+            3,
+        ],
+    ),
+    "key_with_translation": (
+        [
+            0,
+            1,
+        ],
+        [
+            4,
+            4,
+        ],
+    ),
+    "key_with_and_stub": (
+        [
+            0,
+            1,
+        ],
+        [
+            5,
+            5,
+        ],
+    ),
+    "simple_key": (
+        [
+            0,
+            1,
+        ],
+        [
+            6,
+            6,
         ],
     ),
     "values": (
         [
-            5,
-            15,
+            9,
         ],
         [
-            8,
-            22,
+            12,
         ],
     ),
     "value": (
         [
-            5,
-            15,
-            16,
+            9,
+            20,
         ],
         [
-            9,
-            9,
+            13,
             23,
         ],
     ),
@@ -255,24 +271,33 @@ for _k, _v in _lr_goto_items.items():
 del _lr_goto_items
 _lr_productions = [
     ("S' -> px", "S'", 1, None, None, None),
-    ("px -> px NEWLINE key EQUAL values", "px", 5, "p_px", "parser.py", 31),
-    ("px -> key EQUAL values", "px", 3, "p_px", "parser.py", 32),
-    ("key -> STRING", "key", 1, "p_key", "parser.py", 39),
-    ("key -> STRING LSQUARE STRING RSQUARE", "key", 4, "p_key", "parser.py", 40),
+    ("px -> px key_value", "px", 2, "p_px", "parser.py", 34),
+    ("px -> key_value", "px", 1, "p_px", "parser.py", 35),
+    ("key_value -> key EQUAL values", "key_value", 3, "p_key_value", "parser.py", 44),
+    ("key -> key_with_translation", "key", 1, "p_key", "parser.py", 52),
+    ("key -> key_with_and_stub", "key", 1, "p_key", "parser.py", 53),
+    ("key -> simple_key", "key", 1, "p_key", "parser.py", 54),
+    ("simple_key -> UNQUOTED_STRING", "simple_key", 1, "p_simple_key", "parser.py", 61),
     (
-        "key -> STRING LSQUARE STRING RSQUARE LPAREN STRING RPAREN",
-        "key",
-        7,
-        "p_key",
+        "key_with_translation -> UNQUOTED_STRING LSQUARE UNQUOTED_STRING RSQUARE",
+        "key_with_translation",
+        4,
+        "p_key_with_translation",
         "parser.py",
-        41,
+        75,
     ),
-    ("values -> values DELIMITER value SEMI", "values", 4, "p_values", "parser.py", 59),
-    ("values -> value SEMI", "values", 2, "p_values", "parser.py", 60),
-    ("value -> STRING", "value", 1, "p_value", "parser.py", 71),
-    ("value -> FLOAT", "value", 1, "p_value", "parser.py", 72),
-    ("value -> INT", "value", 1, "p_value", "parser.py", 73),
-    ("value -> QUOTE STRING QUOTE", "value", 3, "p_value", "parser.py", 74),
-    ("value -> QUOTE FLOAT QUOTE", "value", 3, "p_value", "parser.py", 75),
-    ("value -> QUOTE INT QUOTE", "value", 3, "p_value", "parser.py", 76),
+    (
+        "key_with_and_stub -> UNQUOTED_STRING LPAREN STRING RPAREN",
+        "key_with_and_stub",
+        4,
+        "p_key_with_and_stub",
+        "parser.py",
+        89,
+    ),
+    ("values -> values DELIMITER value", "values", 3, "p_values", "parser.py", 104),
+    ("values -> value", "values", 1, "p_values", "parser.py", 105),
+    ("value -> UNQUOTED_STRING", "value", 1, "p_value", "parser.py", 115),
+    ("value -> FLOAT", "value", 1, "p_value", "parser.py", 116),
+    ("value -> INT", "value", 1, "p_value", "parser.py", 117),
+    ("value -> STRING", "value", 1, "p_value", "parser.py", 118),
 ]

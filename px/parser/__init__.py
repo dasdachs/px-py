@@ -1,4 +1,4 @@
-from .parser import parse_px  # type: ignore
+from .parser import PxParser  # type: ignore
 from .lexer import PxLexer  # type: ignore
 
-__all__ = ["parse_px", "PxLexer"]
+__all__ = ["PxParser", "PxLexer"]

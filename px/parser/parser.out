@@ -3,326 +3,280 @@ Created by PLY version 3.11 (http://www.dabeaz.com/ply)
 Grammar
 
 Rule 0     S' -> px
-Rule 1     px -> px NEWLINE key EQUAL values
-Rule 2     px -> key EQUAL values
-Rule 3     key -> STRING
-Rule 4     key -> STRING LSQUARE STRING RSQUARE
-Rule 5     key -> STRING LSQUARE STRING RSQUARE LPAREN STRING RPAREN
-Rule 6     values -> values DELIMITER value SEMI
-Rule 7     values -> value SEMI
-Rule 8     value -> STRING
-Rule 9     value -> FLOAT
-Rule 10    value -> INT
-Rule 11    value -> QUOTE STRING QUOTE
-Rule 12    value -> QUOTE FLOAT QUOTE
-Rule 13    value -> QUOTE INT QUOTE
+Rule 1     px -> px key_value
+Rule 2     px -> key_value
+Rule 3     key_value -> key EQUAL values
+Rule 4     key -> key_with_translation
+Rule 5     key -> key_with_and_stub
+Rule 6     key -> simple_key
+Rule 7     simple_key -> UNQUOTED_STRING
+Rule 8     key_with_translation -> UNQUOTED_STRING LSQUARE UNQUOTED_STRING RSQUARE
+Rule 9     key_with_and_stub -> UNQUOTED_STRING LPAREN STRING RPAREN
+Rule 10    values -> values DELIMITER value
+Rule 11    values -> value
+Rule 12    value -> UNQUOTED_STRING
+Rule 13    value -> FLOAT
+Rule 14    value -> INT
+Rule 15    value -> STRING
 
 Terminals, with rules where they appear
 
-DELIMITER            : 6
-EQUAL                : 1 2
-FLOAT                : 9 12
-INT                  : 10 13
-LPAREN               : 5
-LSQUARE              : 4 5
-NEWLINE              : 1
-QUOTE                : 11 11 12 12 13 13
-RPAREN               : 5
-RSQUARE              : 4 5
-SEMI                 : 6 7
-STRING               : 3 4 4 5 5 5 8 11
+DELIMITER            : 10
+EQUAL                : 3
+FLOAT                : 13
+INT                  : 14
+LPAREN               : 9
+LSQUARE              : 8
+RPAREN               : 9
+RSQUARE              : 8
+STRING               : 9 15
+UNQUOTED_STRING      : 7 8 8 9 12
 error                :
 
 Nonterminals, with rules where they appear
 
-key                  : 1 2
+key                  : 3
+key_value            : 1 2
+key_with_and_stub    : 5
+key_with_translation : 4
 px                   : 1 0
-value                : 6 7
-values               : 1 2 6
+simple_key           : 6
+value                : 10 11
+values               : 3 10
 
 Parsing method: LALR
 
 state 0
 
     (0) S' -> . px
-    (1) px -> . px NEWLINE key EQUAL values
-    (2) px -> . key EQUAL values
-    (3) key -> . STRING
-    (4) key -> . STRING LSQUARE STRING RSQUARE
-    (5) key -> . STRING LSQUARE STRING RSQUARE LPAREN STRING RPAREN
+    (1) px -> . px key_value
+    (2) px -> . key_value
+    (3) key_value -> . key EQUAL values
+    (4) key -> . key_with_translation
+    (5) key -> . key_with_and_stub
+    (6) key -> . simple_key
+    (8) key_with_translation -> . UNQUOTED_STRING LSQUARE UNQUOTED_STRING RSQUARE
+    (9) key_with_and_stub -> . UNQUOTED_STRING LPAREN STRING RPAREN
+    (7) simple_key -> . UNQUOTED_STRING
 
-    STRING          shift and go to state 3
+    UNQUOTED_STRING shift and go to state 7
 
     px                             shift and go to state 1
-    key                            shift and go to state 2
+    key_value                      shift and go to state 2
+    key                            shift and go to state 3
+    key_with_translation           shift and go to state 4
+    key_with_and_stub              shift and go to state 5
+    simple_key                     shift and go to state 6
 
 state 1
 
     (0) S' -> px .
-    (1) px -> px . NEWLINE key EQUAL values
+    (1) px -> px . key_value
+    (3) key_value -> . key EQUAL values
+    (4) key -> . key_with_translation
+    (5) key -> . key_with_and_stub
+    (6) key -> . simple_key
+    (8) key_with_translation -> . UNQUOTED_STRING LSQUARE UNQUOTED_STRING RSQUARE
+    (9) key_with_and_stub -> . UNQUOTED_STRING LPAREN STRING RPAREN
+    (7) simple_key -> . UNQUOTED_STRING
 
-    NEWLINE         shift and go to state 4
+    UNQUOTED_STRING shift and go to state 7
 
+    key_value                      shift and go to state 8
+    key                            shift and go to state 3
+    key_with_translation           shift and go to state 4
+    key_with_and_stub              shift and go to state 5
+    simple_key                     shift and go to state 6
 
 state 2
 
-    (2) px -> key . EQUAL values
+    (2) px -> key_value .
 
-    EQUAL           shift and go to state 5
+    UNQUOTED_STRING reduce using rule 2 (px -> key_value .)
+    $end            reduce using rule 2 (px -> key_value .)
 
 
 state 3
 
-    (3) key -> STRING .
-    (4) key -> STRING . LSQUARE STRING RSQUARE
-    (5) key -> STRING . LSQUARE STRING RSQUARE LPAREN STRING RPAREN
+    (3) key_value -> key . EQUAL values
 
-    EQUAL           reduce using rule 3 (key -> STRING .)
-    LSQUARE         shift and go to state 6
+    EQUAL           shift and go to state 9
 
 
 state 4
 
-    (1) px -> px NEWLINE . key EQUAL values
-    (3) key -> . STRING
-    (4) key -> . STRING LSQUARE STRING RSQUARE
-    (5) key -> . STRING LSQUARE STRING RSQUARE LPAREN STRING RPAREN
+    (4) key -> key_with_translation .
 
-    STRING          shift and go to state 3
+    EQUAL           reduce using rule 4 (key -> key_with_translation .)
 
-    key                            shift and go to state 7
 
 state 5
 
-    (2) px -> key EQUAL . values
-    (6) values -> . values DELIMITER value SEMI
-    (7) values -> . value SEMI
-    (8) value -> . STRING
-    (9) value -> . FLOAT
-    (10) value -> . INT
-    (11) value -> . QUOTE STRING QUOTE
-    (12) value -> . QUOTE FLOAT QUOTE
-    (13) value -> . QUOTE INT QUOTE
+    (5) key -> key_with_and_stub .
 
-    STRING          shift and go to state 10
-    FLOAT           shift and go to state 11
-    INT             shift and go to state 12
-    QUOTE           shift and go to state 13
+    EQUAL           reduce using rule 5 (key -> key_with_and_stub .)
 
-    values                         shift and go to state 8
-    value                          shift and go to state 9
 
 state 6
 
-    (4) key -> STRING LSQUARE . STRING RSQUARE
-    (5) key -> STRING LSQUARE . STRING RSQUARE LPAREN STRING RPAREN
+    (6) key -> simple_key .
 
-    STRING          shift and go to state 14
+    EQUAL           reduce using rule 6 (key -> simple_key .)
 
 
 state 7
 
-    (1) px -> px NEWLINE key . EQUAL values
+    (8) key_with_translation -> UNQUOTED_STRING . LSQUARE UNQUOTED_STRING RSQUARE
+    (9) key_with_and_stub -> UNQUOTED_STRING . LPAREN STRING RPAREN
+    (7) simple_key -> UNQUOTED_STRING .
 
-    EQUAL           shift and go to state 15
+    LSQUARE         shift and go to state 10
+    LPAREN          shift and go to state 11
+    EQUAL           reduce using rule 7 (simple_key -> UNQUOTED_STRING .)
 
 
 state 8
 
-    (2) px -> key EQUAL values .
-    (6) values -> values . DELIMITER value SEMI
+    (1) px -> px key_value .
 
-    NEWLINE         reduce using rule 2 (px -> key EQUAL values .)
-    $end            reduce using rule 2 (px -> key EQUAL values .)
-    DELIMITER       shift and go to state 16
+    UNQUOTED_STRING reduce using rule 1 (px -> px key_value .)
+    $end            reduce using rule 1 (px -> px key_value .)
 
 
 state 9
 
-    (7) values -> value . SEMI
+    (3) key_value -> key EQUAL . values
+    (10) values -> . values DELIMITER value
+    (11) values -> . value
+    (12) value -> . UNQUOTED_STRING
+    (13) value -> . FLOAT
+    (14) value -> . INT
+    (15) value -> . STRING
 
-    SEMI            shift and go to state 17
+    UNQUOTED_STRING shift and go to state 14
+    FLOAT           shift and go to state 15
+    INT             shift and go to state 16
+    STRING          shift and go to state 17
 
+    values                         shift and go to state 12
+    value                          shift and go to state 13
 
 state 10
 
-    (8) value -> STRING .
+    (8) key_with_translation -> UNQUOTED_STRING LSQUARE . UNQUOTED_STRING RSQUARE
 
-    SEMI            reduce using rule 8 (value -> STRING .)
+    UNQUOTED_STRING shift and go to state 18
 
 
 state 11
 
-    (9) value -> FLOAT .
+    (9) key_with_and_stub -> UNQUOTED_STRING LPAREN . STRING RPAREN
 
-    SEMI            reduce using rule 9 (value -> FLOAT .)
+    STRING          shift and go to state 19
 
 
 state 12
 
-    (10) value -> INT .
+    (3) key_value -> key EQUAL values .
+    (10) values -> values . DELIMITER value
 
-    SEMI            reduce using rule 10 (value -> INT .)
+    UNQUOTED_STRING reduce using rule 3 (key_value -> key EQUAL values .)
+    $end            reduce using rule 3 (key_value -> key EQUAL values .)
+    DELIMITER       shift and go to state 20
 
 
 state 13
 
-    (11) value -> QUOTE . STRING QUOTE
-    (12) value -> QUOTE . FLOAT QUOTE
-    (13) value -> QUOTE . INT QUOTE
+    (11) values -> value .
 
-    STRING          shift and go to state 18
-    FLOAT           shift and go to state 19
-    INT             shift and go to state 20
+    DELIMITER       reduce using rule 11 (values -> value .)
+    UNQUOTED_STRING reduce using rule 11 (values -> value .)
+    $end            reduce using rule 11 (values -> value .)
 
 
 state 14
 
-    (4) key -> STRING LSQUARE STRING . RSQUARE
-    (5) key -> STRING LSQUARE STRING . RSQUARE LPAREN STRING RPAREN
+    (12) value -> UNQUOTED_STRING .
 
-    RSQUARE         shift and go to state 21
+    DELIMITER       reduce using rule 12 (value -> UNQUOTED_STRING .)
+    UNQUOTED_STRING reduce using rule 12 (value -> UNQUOTED_STRING .)
+    $end            reduce using rule 12 (value -> UNQUOTED_STRING .)
 
 
 state 15
 
-    (1) px -> px NEWLINE key EQUAL . values
-    (6) values -> . values DELIMITER value SEMI
-    (7) values -> . value SEMI
-    (8) value -> . STRING
-    (9) value -> . FLOAT
-    (10) value -> . INT
-    (11) value -> . QUOTE STRING QUOTE
-    (12) value -> . QUOTE FLOAT QUOTE
-    (13) value -> . QUOTE INT QUOTE
+    (13) value -> FLOAT .
 
-    STRING          shift and go to state 10
-    FLOAT           shift and go to state 11
-    INT             shift and go to state 12
-    QUOTE           shift and go to state 13
+    DELIMITER       reduce using rule 13 (value -> FLOAT .)
+    UNQUOTED_STRING reduce using rule 13 (value -> FLOAT .)
+    $end            reduce using rule 13 (value -> FLOAT .)
 
-    values                         shift and go to state 22
-    value                          shift and go to state 9
 
 state 16
 
-    (6) values -> values DELIMITER . value SEMI
-    (8) value -> . STRING
-    (9) value -> . FLOAT
-    (10) value -> . INT
-    (11) value -> . QUOTE STRING QUOTE
-    (12) value -> . QUOTE FLOAT QUOTE
-    (13) value -> . QUOTE INT QUOTE
+    (14) value -> INT .
 
-    STRING          shift and go to state 10
-    FLOAT           shift and go to state 11
-    INT             shift and go to state 12
-    QUOTE           shift and go to state 13
+    DELIMITER       reduce using rule 14 (value -> INT .)
+    UNQUOTED_STRING reduce using rule 14 (value -> INT .)
+    $end            reduce using rule 14 (value -> INT .)
 
-    value                          shift and go to state 23
 
 state 17
 
-    (7) values -> value SEMI .
+    (15) value -> STRING .
 
-    DELIMITER       reduce using rule 7 (values -> value SEMI .)
-    NEWLINE         reduce using rule 7 (values -> value SEMI .)
-    $end            reduce using rule 7 (values -> value SEMI .)
+    DELIMITER       reduce using rule 15 (value -> STRING .)
+    UNQUOTED_STRING reduce using rule 15 (value -> STRING .)
+    $end            reduce using rule 15 (value -> STRING .)
 
 
 state 18
 
-    (11) value -> QUOTE STRING . QUOTE
+    (8) key_with_translation -> UNQUOTED_STRING LSQUARE UNQUOTED_STRING . RSQUARE
 
-    QUOTE           shift and go to state 24
+    RSQUARE         shift and go to state 21
 
 
 state 19
 
-    (12) value -> QUOTE FLOAT . QUOTE
+    (9) key_with_and_stub -> UNQUOTED_STRING LPAREN STRING . RPAREN
 
-    QUOTE           shift and go to state 25
+    RPAREN          shift and go to state 22
 
 
 state 20
 
-    (13) value -> QUOTE INT . QUOTE
+    (10) values -> values DELIMITER . value
+    (12) value -> . UNQUOTED_STRING
+    (13) value -> . FLOAT
+    (14) value -> . INT
+    (15) value -> . STRING
 
-    QUOTE           shift and go to state 26
+    UNQUOTED_STRING shift and go to state 14
+    FLOAT           shift and go to state 15
+    INT             shift and go to state 16
+    STRING          shift and go to state 17
 
+    value                          shift and go to state 23
 
 state 21
 
-    (4) key -> STRING LSQUARE STRING RSQUARE .
-    (5) key -> STRING LSQUARE STRING RSQUARE . LPAREN STRING RPAREN
+    (8) key_with_translation -> UNQUOTED_STRING LSQUARE UNQUOTED_STRING RSQUARE .
 
-    EQUAL           reduce using rule 4 (key -> STRING LSQUARE STRING RSQUARE .)
-    LPAREN          shift and go to state 27
+    EQUAL           reduce using rule 8 (key_with_translation -> UNQUOTED_STRING LSQUARE UNQUOTED_STRING RSQUARE .)
 
 
 state 22
 
-    (1) px -> px NEWLINE key EQUAL values .
-    (6) values -> values . DELIMITER value SEMI
+    (9) key_with_and_stub -> UNQUOTED_STRING LPAREN STRING RPAREN .
 
-    NEWLINE         reduce using rule 1 (px -> px NEWLINE key EQUAL values .)
-    $end            reduce using rule 1 (px -> px NEWLINE key EQUAL values .)
-    DELIMITER       shift and go to state 16
+    EQUAL           reduce using rule 9 (key_with_and_stub -> UNQUOTED_STRING LPAREN STRING RPAREN .)
 
 
 state 23
 
-    (6) values -> values DELIMITER value . SEMI
+    (10) values -> values DELIMITER value .
 
-    SEMI            shift and go to state 28
-
-
-state 24
-
-    (11) value -> QUOTE STRING QUOTE .
-
-    SEMI            reduce using rule 11 (value -> QUOTE STRING QUOTE .)
-
-
-state 25
-
-    (12) value -> QUOTE FLOAT QUOTE .
-
-    SEMI            reduce using rule 12 (value -> QUOTE FLOAT QUOTE .)
-
-
-state 26
-
-    (13) value -> QUOTE INT QUOTE .
-
-    SEMI            reduce using rule 13 (value -> QUOTE INT QUOTE .)
-
-
-state 27
-
-    (5) key -> STRING LSQUARE STRING RSQUARE LPAREN . STRING RPAREN
-
-    STRING          shift and go to state 29
-
-
-state 28
-
-    (6) values -> values DELIMITER value SEMI .
-
-    DELIMITER       reduce using rule 6 (values -> values DELIMITER value SEMI .)
-    NEWLINE         reduce using rule 6 (values -> values DELIMITER value SEMI .)
-    $end            reduce using rule 6 (values -> values DELIMITER value SEMI .)
-
-
-state 29
-
-    (5) key -> STRING LSQUARE STRING RSQUARE LPAREN STRING . RPAREN
-
-    RPAREN          shift and go to state 30
-
-
-state 30
-
-    (5) key -> STRING LSQUARE STRING RSQUARE LPAREN STRING RPAREN .
-
-    EQUAL           reduce using rule 5 (key -> STRING LSQUARE STRING RSQUARE LPAREN STRING RPAREN .)
+    DELIMITER       reduce using rule 10 (values -> values DELIMITER value .)
+    UNQUOTED_STRING reduce using rule 10 (values -> values DELIMITER value .)
+    $end            reduce using rule 10 (values -> values DELIMITER value .)
