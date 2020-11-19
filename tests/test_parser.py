@@ -33,6 +33,19 @@ from .data.parsed_files import parsed_simple_px
                 }
             },
         ),
+        (
+            'TIMEVAL("LETO")="1995","1996";',
+            {
+                "timeval": {
+                    "default": {
+                        "key": "TIMEVAL",
+                        "link_to_heading_value": "LETO",
+                        "values": ["1995", "1996"],
+                    },
+                    "translations": {},
+                },
+            },
+        ),
     ],
 )
 def test_single_line_parsing(line: str, expected: Dict[str, str]) -> None:
