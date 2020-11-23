@@ -4,3 +4,7 @@ class FileNotFoundError(Exception):
 
 class InvalidPXFile(Exception):
     pass
+
+
+class InvalidRulesSpec(Exception):
+    pass
