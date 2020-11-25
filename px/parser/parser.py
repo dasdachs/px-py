@@ -25,9 +25,6 @@ class PxParser(object):
         """
         return self._parser.parse(text)
 
-    def parse_file(self, file: Path, encoding: str) -> Dict:
-        pass
-
     def p_px(self, p) -> Dict[str, Union[str, int, float]]:
         """
         px : px key_value

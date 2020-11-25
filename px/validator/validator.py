@@ -5,7 +5,7 @@ from pathlib import Path
 from typing import cast, Dict, List, Optional, Union
 from enum import Enum
 
-from px.exceptions import InvalidRulesSpec
+from px.exceptions import InvalidParserOutput, InvalidRulesSpec
 
 
 __all__ = ["PxFileValidator"]
@@ -23,7 +23,12 @@ class PxFileValidator(object):
     def __init__(
         self,
         content: Optional[str] = None,
-        parsed_file: Optional[Dict[str, Union[Dict, List]]] = None,
+        parsed_file: Optional[
+            Dict[
+                str,
+                Dict,
+            ]
+        ] = None,
         specs_version="2013",
     ) -> None:
         self._content = content
@@ -37,7 +42,7 @@ class PxFileValidator(object):
 
         self._load_validaton_rules()
 
-    def validate_file_structure(self) -> Union[bool, None]:
+    def validate_file_structure(self) -> bool:
         """
         Checks the overall file structure.
 
@@ -48,8 +53,6 @@ class PxFileValidator(object):
         - DATA key is at the end of the file
         - mandatory keywords are present
         """
-        if not self._content:
-            raise AttributeError("No file content provided")
         file_is_valid = True
 
         # Replace unix newlines (\n) and windows new lines (\n\r)
@@ -102,6 +105,25 @@ class PxFileValidator(object):
                 )
 
         return file_is_valid
+
+    def validate_values(self) -> None:
+        """Get all the values and checks if the values are valid"""
+        for key, value in self._parsed_file.items():
+            rule = self._rules.get(key)
+
+            if not rule:
+                raise InvalidRulesSpec(f"Missing rule for {key}")
+
+            try:
+                values = value.get("default", {})
+                values = values.get("values")
+
+                validation_errors = rule.validate(values)
+
+                if len(value) != 0:
+                    self.validation_errors += validation_errors
+            except KeyError:
+                raise InvalidParserOutput(f"Missing vales for {key}")
 
     def _load_validaton_rules(self) -> None:
         """Loads and reads simple csv rules for px file validation"""
