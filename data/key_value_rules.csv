@@ -1,0 +1,13 @@
+key,spec_version,mandatory,type,multiline,value_length,min_val,max_val,not_required_if
+CONTENTS,2013,yes,text,no,256
+DATA,2013,yes,"text,integer",yes
+DECIMALS,2013,yes,integer,no,256,1,15
+DESCRIPTION,2013,yes,text,yes,,,,TITLE
+HEADING,2013,yes,text,yes,256,,,STUB
+MATRIX,2013,yes,text,no,20
+STUB,2013,yes,text,yes,256,,,HEADING
+SUBJECT-AREA,2013,yes,text,no,256
+SUBJECT-CODE,2013,yes,text,no,20
+TITLE,2013,yes,text,yes,256,,,DESCRIPTION
+UNITS,2013,yes,text,no,256
+VALUES,2013,yes,text,yes,256

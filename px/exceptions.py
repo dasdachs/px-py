@@ -4,3 +4,11 @@ class FileNotFoundError(Exception):
 
 class InvalidPXFile(Exception):
     pass
+
+
+class InvalidParserOutput(Exception):
+    pass
+
+
+class InvalidRulesSpec(Exception):
+    pass

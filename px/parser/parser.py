@@ -18,16 +18,12 @@ class PxParser(object):
     def __init__(self):
         self._lexer = PxLexer().lexer
         self._parser = yacc.yacc(module=self)
-        self.parsed_file = {}
 
     def parse(self, text: str):
         """
         Main method to start the parsing process.
         """
         return self._parser.parse(text)
-
-    def parse_file(self, file: Path, encoding: str) -> Dict:
-        pass
 
     def p_px(self, p) -> Dict[str, Union[str, int, float]]:
         """
