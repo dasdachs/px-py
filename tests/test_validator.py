@@ -21,7 +21,10 @@ def test_file_structure_is_valid(
 ) -> None:
     """Tests if example data files are valid"""
     file_content = read_file(path_to_file)
-    validator = PxFileValidator(content=file_content)
+    parser = PxParser()
+    parsed_file = parser.parse(file_content)
+
+    validator = PxFileValidator(content=file_content, parsed_file=parsed_file)
 
     assert validator.validate_file_structure() == is_valid
 
@@ -48,9 +51,16 @@ def test_file_structure_is_valid(
         )
     ],
 )
-def test_mandatory_fields(spec_version: str, mandatory_keys: List[str]) -> None:
+def test_mandatory_fields(
+    spec_version: str, mandatory_keys: List[str], read_file
+) -> None:
     """Tests if example data files are valid"""
-    validator = PxFileValidator(specs_version=spec_version)
+    file_content = read_file(["tests", "data", "simple.px"])
+    parser = PxParser()
+    parsed_file = parser.parse(file_content)
+    validator = PxFileValidator(
+        content=file_content, parsed_file=parsed_file, specs_version=spec_version
+    )
 
     assert validator.mandatory_keywords == mandatory_keys
 

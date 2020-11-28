@@ -22,13 +22,11 @@ class PxFileValidator(object):
 
     def __init__(
         self,
-        content: Optional[str] = None,
-        parsed_file: Optional[
-            Dict[
-                str,
-                Dict,
-            ]
-        ] = None,
+        content: str,
+        parsed_file: Dict[
+            str,
+            Dict,
+        ],
         specs_version="2013",
     ) -> None:
         self._content = content
@@ -80,6 +78,8 @@ class PxFileValidator(object):
         for line in lines:
             try:
                 p = re.match(key_re, line)
+                if not p:
+                    continue
                 key = p.group().lower()
                 keys.append(key)
             except AttributeError:
@@ -92,7 +92,8 @@ class PxFileValidator(object):
             if key not in keys:
                 key_validator = self._rules.get(key)
                 if (
-                    key_validator.mandatory_exception
+                    key_validator
+                    and key_validator.mandatory_exception
                     and key_validator.mandatory_exception in keys
                 ):
                     continue
@@ -302,7 +303,7 @@ class KeyValueValidationRule(object):
 
         value = cast(str, value)
 
-        if len(value) > self._value_length:
+        if self._value_length and len(value) > self._value_length:
             validation_error = ValidationError(
                 f"Value {value} for {self._keyword} should not be longer than {self._value_length}",
                 ValidationErrorType.ValuesError,
@@ -316,7 +317,9 @@ class KeyValueValidationRule(object):
         """Validate single values against min and max rules"""
         validation_error = None
 
-        if self._min_value > value or (self._max_value and self._max_value < value):
+        if (self._min_value and self._min_value > value) or (
+            self._max_value and self._max_value < value
+        ):
             validation_error = ValidationError(
                 f"Value {value} for {self._keyword} should be bigger then {self._min_value} and less then {self._max_value}",
                 ValidationErrorType.ValuesError,
